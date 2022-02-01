@@ -4,6 +4,7 @@ import { router } from './router';
 
 const start = async () => {
   const config = await Environment.config();
+
   const app = express();
 
   app.use(express.json());

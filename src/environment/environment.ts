@@ -3,34 +3,39 @@ import { once } from 'ramda';
 
 dotenv.config();
 
-export class Environment {
-  static config = once(async () => {
-    const isDev = process.env.NODE_ENV === 'development';
+const config = once(async () => {
+  const PORT = Number(process.env.PORT || '3001');
+  const NODE_ENV = mandatory('NODE_ENV', process.env.NODE_ENV);
 
-    const PORT = Number(Environment.runtime('PORT', '3001'));
-    const NODE_ENV = Environment.runtime('NODE_ENV');
-    const API_URL = isDev ? Environment.runtime('API_URL') : await Environment.secret('API_URL');
-    const REDIS_HOST = isDev ? Environment.runtime('REDIS_HOST') : await Environment.secret('REDIS_HOST');
+  const API_URL = await runtime('API_URL');
+  const REDIS_HOST = await runtime('REDIS_HOST');
 
-    return {
-      PORT,
-      API_URL,
-      NODE_ENV,
-      REDIS_HOST
-    };
-  });
-
-  static runtime = (key: string, fallback?: string) => {
-    const value = process.env[key] || fallback;
-
-    if (!value) {
-      throw new Error(`missing runtime variable: ${key}`);
-    }
-
-    return value;
+  return {
+    PORT,
+    NODE_ENV,
+    API_URL: mandatory('API_URL', API_URL),
+    REDIS_HOST: mandatory('REDIS_HOST', REDIS_HOST)
   };
+});
 
-  static secret = (key: string) => {
-    return Promise.resolve(`secret:${key}`);
-  };
-}
+const mandatory = (key: string, value: string | undefined) => {
+  if (!value) {
+    throw new Error(`missing mandatory variable: ${key}`);
+  }
+
+  return value;
+};
+
+const runtime = (key: string) => {
+  const NODE_ENV = mandatory('NODE_ENV', process.env.NODE_ENV);
+
+  if (NODE_ENV === 'development') {
+    return process.env[key];
+  }
+
+  return Promise.resolve(`secret:${key}`);
+};
+
+export const Environment = {
+  config
+};

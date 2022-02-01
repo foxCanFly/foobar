@@ -1,14 +1,14 @@
 import { IQueryResult } from '../../types/request';
 import { IResponse } from '../../types/response';
-import { SessionService } from '../../services/session';
 import { Responder } from '../responder';
+import { DataStore } from '../../services/data-store';
 
 export const authentication = async (sessionId: string, queryResult: IQueryResult): Promise<IResponse> => {
-  const session = await SessionService.get(sessionId);
+  const session = await DataStore.getSession(sessionId);
 
-  // do some auth stuff
+  // do some authentication stuff
 
-  await SessionService.set(sessionId, { auth: { ...session.auth, done: true } });
+  await DataStore.setSession(sessionId, { auth: { ...session.auth, done: true } });
 
   return Responder.root(sessionId, queryResult);
 };
