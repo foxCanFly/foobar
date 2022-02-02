@@ -1,4 +1,4 @@
-import { Environment } from './environment';
+import { Environment } from './services/environment';
 import { Server } from './server';
 
 async function bootstrap() {

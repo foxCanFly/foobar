@@ -1,5 +1,5 @@
 import express from 'express';
-import { Environment } from './environment';
+import { Environment } from './services/environment';
 import { router } from './router';
 
 const start = async () => {

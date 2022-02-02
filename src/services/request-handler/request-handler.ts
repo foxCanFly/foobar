@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { Environment } from '../../environment';
+import { Environment } from '../environment';
 
 export class RequestHandler {
   static async request<T>(options: AxiosRequestConfig) {

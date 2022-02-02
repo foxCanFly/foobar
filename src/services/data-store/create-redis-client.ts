@@ -1,6 +1,6 @@
 import Redis from 'ioredis';
 import { once } from 'ramda';
-import { Environment } from '../../environment';
+import { Environment } from '../environment';
 
 export const createRedisClient = once(async () => {
   const config = await Environment.config();
