@@ -4,7 +4,7 @@ import { once } from 'ramda';
 dotenv.config();
 
 const config = once(async () => {
-  const PORT = Number(process.env.PORT || '3001');
+  const PORT = Number(process.env.PORT || '3000');
   const NODE_ENV = mandatory('NODE_ENV', process.env.NODE_ENV);
 
   const API_URL = await runtime('API_URL');

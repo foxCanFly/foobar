@@ -5,28 +5,19 @@ const keys = {
   session: (id: string) => `session:${id}`
 };
 
-const setSession = async (id: string, data: Partial<ISession>): Promise<void> => {
+const setSession = async (id: string, data: ISession): Promise<void> => {
   const client = await createRedisClient();
 
-  const session = await getSession(id);
-
-  await client.setex(
-    keys.session(id),
-    300,
-    JSON.stringify({
-      ...session,
-      ...data
-    })
-  );
+  await client.setex(keys.session(id), 300, JSON.stringify(data));
 };
 
-const getSession = async (id: string): Promise<ISession> => {
+const getSession = async (id: string): Promise<ISession | null> => {
   const client = await createRedisClient();
 
   const session = await client.get(keys.session(id));
 
   if (!session) {
-    return { id, auth: { done: false } };
+    return null;
   }
 
   return JSON.parse(session);

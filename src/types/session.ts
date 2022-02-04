@@ -4,3 +4,10 @@ export interface ISession {
     done: boolean;
   };
 }
+
+const SessionService = {
+  get() {},
+  set() {}
+};
+
+class Contract {}
