@@ -1,6 +1,7 @@
 import express from 'express';
 import { Environment } from './services/environment';
 import { router } from './router';
+import { Logger } from './services/logger';
 
 const start = async () => {
   const config = await Environment.config();
@@ -13,7 +14,7 @@ const start = async () => {
   app.use(router);
 
   app.listen(config.PORT, () => {
-    console.log(`The application is running ( PORT: ${config.PORT}, NODE_ENV: ${config.NODE_ENV} )`);
+    Logger.info(`The application is running ( PORT: ${config.PORT}, NODE_ENV: ${config.NODE_ENV} )`);
   });
 
   return app;
