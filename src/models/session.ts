@@ -1,11 +1,24 @@
-export class Session {
-  id: string;
+import { ISession } from '../types/session';
+import R from 'ramda';
 
-  auth = {
-    done: false
+const init = (id: string): ISession => {
+  return {
+    id,
+    auth: {
+      status: 'NONE',
+      step: 'NONE',
+      currentUser: null,
+      initiator: null,
+      data: {}
+    }
   };
+};
 
-  constructor(id: string) {
-    this.id = id;
-  }
-}
+const update = R.curry((data: Partial<ISession>, session: ISession): ISession => {
+  return { ...session, ...data };
+});
+
+export const Session = {
+  init,
+  update
+};

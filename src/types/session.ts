@@ -1,6 +1,6 @@
+import { IAuth } from './auth';
+
 export interface ISession {
   id: string;
-  auth: {
-    done: boolean;
-  };
+  auth: IAuth;
 }

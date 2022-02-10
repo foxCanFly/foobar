@@ -1,16 +1,13 @@
 import { Request, Response } from 'express';
-import { IQueryResult } from '../types/request';
+import { IFFRequest, IFFResponse } from '../types/webhook';
 import { Responder } from './responder';
 
-export const fulfillment = async (req: Request, res: Response) => {
-  console.log('FF REQ :', req.body);
+type IRequest = Request<unknown, unknown, IFFRequest>;
+type IResponse = Response<IFFResponse>;
 
-  const sessionId: string = req.body.session;
-  const queryResult: IQueryResult = req.body.queryResult;
-
-  const response = await Responder.root(sessionId, queryResult);
-
-  console.log('FF RES :', response);
+export const fulfillment = async (req: IRequest, res: IResponse) => {
+  const request = req.body;
+  const response = await Responder.root(request);
 
   res.status(200).json(response);
 };

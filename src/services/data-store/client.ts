@@ -1,8 +1,8 @@
-import Redis from 'ioredis';
-import { once } from 'ramda';
+import R from 'ramda';
 import { Environment } from '../environment';
+import Redis from 'ioredis';
 
-export const createRedisClient = once(async () => {
+export const client = R.once(async () => {
   const config = await Environment.config();
 
   const instance = new Redis({

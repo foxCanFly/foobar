@@ -1,28 +1,19 @@
-import { DataStore } from '../data-store';
 import { ISession } from '../../types/session';
 import { Session } from '../../models/session';
+import { DataStore } from '../data-store';
 
-const fetch = async (id: string): Promise<Session> => {
-  const data = await DataStore.getSession(id);
+const fetch = async (id: string): Promise<ISession> => {
+  const session = await DataStore.getSession(id);
 
-  const session = new Session(id);
-
-  if (!data) {
-    return session;
+  if (!session) {
+    return Session.init(id);
   }
 
-  session.auth = data.auth;
-
-  return session;
+  return JSON.parse(session);
 };
 
-const store = async (session: Session): Promise<void> => {
-  const data: ISession = {
-    id: session.id,
-    auth: session.auth
-  };
-
-  await DataStore.setSession(session.id, data);
+const store = async (session: ISession): Promise<void> => {
+  await DataStore.setSession(session.id, JSON.stringify(session));
 };
 
 export const SessionService = {
