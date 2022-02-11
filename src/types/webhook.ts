@@ -3,6 +3,7 @@ export type IFFParameter = Record<string, unknown>;
 export type IFFOutputContext = {
   name: string;
   lifespanCount: number;
+  parameters?: Record<string, unknown>;
 };
 
 export type IFFIntent = {
@@ -28,5 +29,12 @@ export type IFFRequest = {
     parameters: IFFParameter;
     outputContexts: IFFOutputContext[];
     intent: IFFIntent;
+  };
+  originalDetectIntentRequest?: {
+    payload?: {
+      channelContext: {
+        from: string;
+      };
+    };
   };
 };
