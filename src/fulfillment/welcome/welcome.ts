@@ -15,7 +15,13 @@ export const welcome = async (request: IFFRequest): Promise<IFFResponse> => {
     ANI
   });
 
+  prefetch(request).then();
+
   return {
     fulfillmentText: ''
   };
+};
+
+const prefetch = async (request: IFFRequest) => {
+  //
 };

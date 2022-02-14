@@ -1,7 +1,7 @@
 import { none } from './none';
 import { passed } from './passed';
 
-export const Steps = {
+export const Responder = {
   none,
   passed
 };

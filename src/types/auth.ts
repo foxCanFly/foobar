@@ -9,5 +9,4 @@ export type IAuth = {
   step: IStep;
   initiator: IFFRequest | null;
   currentUser: IUser | null;
-  data: Record<string, unknown>;
 };

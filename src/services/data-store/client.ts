@@ -3,7 +3,7 @@ import Redis from 'ioredis';
 import { Environment } from '../environment';
 import { Logger } from '../logger';
 
-export const client = R.once(async () => {
+export const getRedisClient = R.once(async () => {
   const config = await Environment.config();
 
   const instance = new Redis({

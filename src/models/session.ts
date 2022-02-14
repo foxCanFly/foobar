@@ -1,5 +1,5 @@
-import { ISession } from '../types/session';
 import R from 'ramda';
+import { ISession } from '../types/session';
 
 const init = (id: string): ISession => {
   return {
@@ -8,8 +8,7 @@ const init = (id: string): ISession => {
       status: 'NONE',
       step: 'NONE',
       currentUser: null,
-      initiator: null,
-      data: {}
+      initiator: null
     }
   };
 };
