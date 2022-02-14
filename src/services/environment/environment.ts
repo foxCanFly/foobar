@@ -1,14 +1,17 @@
 import dotenv from 'dotenv';
 import { once } from 'ramda';
+import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
 
 dotenv.config();
+
+const secrets = new SecretManagerServiceClient();
 
 const config = once(async () => {
   const PORT = Number(process.env.PORT || '3000');
   const NODE_ENV = mandatory('NODE_ENV', process.env.NODE_ENV);
 
-  const API_URL = await runtime('API_URL');
-  const REDIS_HOST = await runtime('REDIS_HOST');
+  const API_URL = '...'; // await runtime('API_URL');
+  const REDIS_HOST = '...'; // await runtime('REDIS_HOST');
 
   return {
     PORT,
@@ -26,14 +29,20 @@ const mandatory = (key: string, value: string | undefined) => {
   return value;
 };
 
-const runtime = (key: string) => {
+const runtime = async (name: string) => {
   const NODE_ENV = mandatory('NODE_ENV', process.env.NODE_ENV);
 
   if (NODE_ENV === 'development') {
-    return process.env[key];
+    return process.env[name];
   }
 
-  return Promise.resolve(`secret:${key}`);
+  const [version] = await secrets.accessSecretVersion({
+    name: `projects/homeserve-cca-us-${NODE_ENV}/secrets/${name}/versions/latest`
+  });
+
+  if (version.payload && version.payload.data) {
+    return version.payload.data.toString();
+  }
 };
 
 export const Environment = {
