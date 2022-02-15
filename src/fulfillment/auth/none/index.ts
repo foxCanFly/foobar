@@ -1,11 +1,11 @@
 import { IFFRequest, IFFResponse } from '../../../types/webhook';
-import { SessionService } from '../../../services/session';
 import { Responder } from '../../responder';
+import { Storage } from '../../../services/storage';
 
 export const none = async (request: IFFRequest): Promise<IFFResponse> => {
-  const session = await SessionService.fetch(request.session);
+  const session = await Storage.session.ensure(request.session);
 
-  await SessionService.store({
+  await Storage.session.update(session.id, {
     ...session,
     auth: { ...session.auth, step: 'PASSED', initiator: request }
   });

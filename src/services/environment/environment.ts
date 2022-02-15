@@ -10,8 +10,8 @@ const config = once(async () => {
   const PORT = Number(process.env.PORT || '3000');
   const NODE_ENV = mandatory('NODE_ENV', process.env.NODE_ENV);
 
-  const API_URL = '...'; // await runtime('API_URL');
-  const REDIS_HOST = '...'; // await runtime('REDIS_HOST');
+  const API_URL = '/'; // await runtime('API_URL');
+  const REDIS_HOST = '127.0.0.1'; // await runtime('REDIS_HOST');
 
   return {
     PORT,

@@ -3,17 +3,12 @@ import Redis from 'ioredis';
 import { Environment } from '../environment';
 import { Logger } from '../logger';
 
-export const getRedisClient = R.once(async () => {
+const connect = R.once(async () => {
   const config = await Environment.config();
 
   const instance = new Redis({
     port: 6379,
-    host: config.REDIS_HOST,
-    connectTimeout: 1000,
-    showFriendlyErrorStack: true,
-    maxRetriesPerRequest: 0,
-    autoResubscribe: false,
-    lazyConnect: true
+    host: config.REDIS_HOST
   });
 
   instance.on('error', (...args) => Logger.error(`REDIS error: `, ...args));
@@ -23,3 +18,5 @@ export const getRedisClient = R.once(async () => {
 
   return instance;
 });
+
+export const connection = { connect };

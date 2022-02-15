@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import { fulfillment } from '../fulfillment';
-import { routeHandler } from './route-handler';
+import { asyncHandler } from './async-handler';
 import { auth } from './auth';
 
 export const router = Router();
 
-router.post('/webhook', auth, routeHandler(fulfillment));
+router.post('/webhook', auth, asyncHandler(fulfillment));
 
 router.get(
   '/ping',
-  routeHandler(async (req, res) => res.send('pong'))
+  asyncHandler(async (req, res) => res.send('pong'))
 );
